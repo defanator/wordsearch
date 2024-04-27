@@ -8,12 +8,14 @@ Wordsearch implementation
 import random
 import string
 
-EMPTY_CHAR = '-'
+EMPTY_CHAR = "-"
 
-class WordsearchBoard():
+
+class WordsearchBoard:
     """
     Class representing a grid for word search board
     """
+
     def __init__(self, width=20, height=20):
         if width < 1:
             raise ValueError("width must be greater than 0")
@@ -61,11 +63,11 @@ class WordsearchBoard():
 
             return False
 
-        for yw in range(y-radius, y+radius+1):
-            for xw in range(x-radius, x+radius+1):
+        for yw in range(y - radius, y + radius + 1):
+            for xw in range(x - radius, x + radius + 1):
                 if yw < 0 or xw < 0:
                     continue
-                if yw > self.height-1 or xw > self.width-1:
+                if yw > self.height - 1 or xw > self.width - 1:
                     continue
                 if self.grid[yw][xw] != EMPTY_CHAR:
                     return True
@@ -85,13 +87,13 @@ class WordsearchBoard():
             return False
 
         if wlen <= self.height and wlen <= self.width:
-            direction_choices = [[1,0], [1,1], [0,1], [1,-1]]
+            direction_choices = [[1, 0], [1, 1], [0, 1], [1, -1]]
 
         elif self.width < wlen <= self.height:
-            direction_choices = [[1,0]]
+            direction_choices = [[1, 0]]
 
         elif self.height < wlen <= self.width:
-            direction_choices = [[0,1]]
+            direction_choices = [[0, 1]]
 
         y_spacing = self.height - wlen + 1
         x_spacing = self.width - wlen + 1
@@ -108,17 +110,17 @@ class WordsearchBoard():
                 y = random.randrange(0, self.height)
 
             if direction[1] == -1:
-                x = random.randrange(wlen-1, self.width)
+                x = random.randrange(wlen - 1, self.width)
 
             elif direction[1] == 1:
                 x = random.randrange(0, x_spacing) if x_spacing > 0 else 0
 
-            else: # direction[1] == 0
+            else:  # direction[1] == 0
                 x = random.randrange(0, self.width)
 
             fits = True
             for c in range(wlen):
-                if self.occupied(y + direction[0]*c, x + direction[1]*c):
+                if self.occupied(y + direction[0] * c, x + direction[1] * c):
                     fits = False
                     break
 
@@ -145,11 +147,11 @@ class WordsearchBoard():
             return False
 
         for c in range(wlen):
-            self.grid[y + direction[0]*c][x + direction[1]*c] = word[c]
+            self.grid[y + direction[0] * c][x + direction[1] * c] = word[c]
 
         return True
 
-    def exists(self, word, res_board=None, direction='default'):
+    def exists(self, word, res_board=None, direction="default"):
         """
         Check whether a given word present on a board
 
@@ -166,7 +168,7 @@ class WordsearchBoard():
 
         return False
 
-    def find(self, word, row, col, i=0, direction='default', res_board=None):
+    def find(self, word, row, col, i=0, direction="default", res_board=None):
         """
         Recursive function for locating a word
 
@@ -178,7 +180,7 @@ class WordsearchBoard():
         :param res_board: WordsearchBoard.grid - grid for storing results
         :return: bool - true if word was found, false otherwise
         """
-        #print(f'find called: word={word} row={row} col={col} i={i}')
+        # print(f'find called: word={word} row={row} col={col} i={i}')
         if i == len(word):
             return True
 
@@ -191,42 +193,74 @@ class WordsearchBoard():
         if word[i] != self.grid[row][col]:
             return False
 
-        self.grid[row][col] = '*'
+        self.grid[row][col] = "*"
 
-        if direction == 'default':
+        if direction == "default":
             res = (
-                self.find(word, row+1, col, i+1, res_board=res_board) or
-                self.find(word, row-1, col, i+1, res_board=res_board) or
-                self.find(word, row, col+1, i+1, res_board=res_board) or
-                self.find(word, row, col-1, i+1, res_board=res_board) or
-                self.find(word, row+1, col+1, i+1, res_board=res_board, direction=direction) or
-                self.find(word, row-1, col-1, i+1, res_board=res_board, direction=direction) or
-                self.find(word, row+1, col-1, i+1, res_board=res_board, direction=direction) or
-                self.find(word, row-1, col+1, i+1, res_board=res_board, direction=direction)
-             )
-
-        elif direction == 'horizontal':
-            res = (
-                self.find(word, row, col+1, i+1, res_board=res_board, direction=direction) or
-                self.find(word, row, col-1, i+1, res_board=res_board, direction=direction)
+                self.find(word, row + 1, col, i + 1, res_board=res_board)
+                or self.find(word, row - 1, col, i + 1, res_board=res_board)
+                or self.find(word, row, col + 1, i + 1, res_board=res_board)
+                or self.find(word, row, col - 1, i + 1, res_board=res_board)
+                or self.find(
+                    word,
+                    row + 1,
+                    col + 1,
+                    i + 1,
+                    res_board=res_board,
+                    direction=direction,
+                )
+                or self.find(
+                    word,
+                    row - 1,
+                    col - 1,
+                    i + 1,
+                    res_board=res_board,
+                    direction=direction,
+                )
+                or self.find(
+                    word,
+                    row + 1,
+                    col - 1,
+                    i + 1,
+                    res_board=res_board,
+                    direction=direction,
+                )
+                or self.find(
+                    word,
+                    row - 1,
+                    col + 1,
+                    i + 1,
+                    res_board=res_board,
+                    direction=direction,
+                )
             )
 
-        elif direction == 'vertical':
-            res = (
-                self.find(word, row+1, col, i+1, res_board=res_board, direction=direction) or
-                self.find(word, row-1, col, i+1, res_board=res_board, direction=direction)
+        elif direction == "horizontal":
+            res = self.find(
+                word, row, col + 1, i + 1, res_board=res_board, direction=direction
+            ) or self.find(
+                word, row, col - 1, i + 1, res_board=res_board, direction=direction
             )
 
-        elif direction == 'diagonal_cross1':
-            res = (
-                self.find(word, row+1, col+1, i+1, res_board=res_board, direction=direction) or
-                self.find(word, row-1, col-1, i+1, res_board=res_board, direction=direction)
+        elif direction == "vertical":
+            res = self.find(
+                word, row + 1, col, i + 1, res_board=res_board, direction=direction
+            ) or self.find(
+                word, row - 1, col, i + 1, res_board=res_board, direction=direction
             )
 
-        elif direction == 'diagonal_cross2':
-            res = (
-                self.find(word, row+1, col-1, i+1, res_board=res_board, direction=direction) or
-                self.find(word, row-1, col+1, i+1, res_board=res_board, direction=direction)
+        elif direction == "diagonal_cross1":
+            res = self.find(
+                word, row + 1, col + 1, i + 1, res_board=res_board, direction=direction
+            ) or self.find(
+                word, row - 1, col - 1, i + 1, res_board=res_board, direction=direction
+            )
+
+        elif direction == "diagonal_cross2":
+            res = self.find(
+                word, row + 1, col - 1, i + 1, res_board=res_board, direction=direction
+            ) or self.find(
+                word, row - 1, col + 1, i + 1, res_board=res_board, direction=direction
             )
 
         self.grid[row][col] = word[i]
@@ -246,7 +280,7 @@ class WordsearchBoard():
             grid = self.grid
 
         for row in grid:
-            print(' '.join(row))
+            print(" ".join(row))
 
     def empty_grid(self):
         """

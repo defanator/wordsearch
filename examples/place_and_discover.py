@@ -18,7 +18,7 @@ ws.print_board()
 
 for word in words:
     empty_grid = ws.empty_grid()
-    word_found = ws.exist(word)
+    word_found = ws.exists(word)
 
     print(f'Searching for {word}: {word_found}')
     #if rc:

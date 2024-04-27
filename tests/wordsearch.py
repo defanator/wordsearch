@@ -22,6 +22,7 @@ def test_create_default_board():
     assert len(wb.grid) == wb.height
     assert len(wb.grid[0]) == wb.width
 
+
 def test_create_custom_board():
     """
     Create custom board
@@ -33,12 +34,13 @@ def test_create_custom_board():
     assert len(wb.grid) == wb.height
     assert len(wb.grid[0]) == wb.width
 
+
 def test_create_board_with_invalid_input():
     """
     Create custom board with invalid input values
     """
-    with pytest.raises(ValueError,  match=r'width must be greater than 0'):
+    with pytest.raises(ValueError, match=r"width must be greater than 0"):
         _ = WordsearchBoard(width=-3, height=3)
 
-    with pytest.raises(ValueError,  match=r'height must be greater than 0'):
+    with pytest.raises(ValueError, match=r"height must be greater than 0"):
         _ = WordsearchBoard(width=3, height=-3)
