@@ -48,7 +48,12 @@ class WordsearchBoard():
 
     def occupied(self, y, x, radius=1):
         """
-        Check if a given position is already occupied with a letter
+        Check if a given cell is already occupied with a letter
+
+        :param y: int - row
+        :param x: int - column
+        :param radius: int - number of adjacent cells that must be empty as well
+        :return: bool - true if occupied, false otherwise
         """
         if radius == 0:
             if self.grid[y][x] != EMPTY_CHAR:
@@ -69,7 +74,12 @@ class WordsearchBoard():
 
     def find_xy(self, wlen, max_attempts=1000):
         """
-        Find coordinates and direction for a word with given length
+        Find coordinates and direction for a word with a given length
+
+        :param wlen: int - length of a word
+        :param max_attempts: int - max number of attempts to find a place
+        :return: int x, int y, tuple direction - coordinates and direction for a word
+        :return: None if free cell was not found
         """
         if self.width < wlen and self.height < wlen:
             return False
@@ -123,6 +133,9 @@ class WordsearchBoard():
     def place_word(self, word):
         """
         Place a word to grid
+
+        :param word: str - word to place
+        :return: bool - true if word was placed, false otherwise
         """
         wlen = len(word)
 
@@ -136,20 +149,34 @@ class WordsearchBoard():
 
         return True
 
-    def exist(self, word, res_board=None, direction='default'):
+    def exists(self, word, res_board=None, direction='default'):
         """
         Check whether a given word present on a board
+
+        :param word: str - word to search
+        :param res_board: WordsearchBoard.grid - grid with a given word if it was found
+        :param direction: str - which directions to look for
+        :return: bool - true if a word was found, false otherwise
         """
         for y in range(self.height):
             for x in range(self.width):
                 if word[0] == self.grid[y][x]:
                     if self.find(word, y, x, res_board=res_board, direction=direction):
                         return True
+
         return False
 
     def find(self, word, row, col, i=0, direction='default', res_board=None):
         """
         Recursive function for locating a word
+
+        :param word: str - word to search
+        :param row: row in a grid (y axis)
+        :param col: column in a grid (x axis)
+        :param i: int - current position in a word
+        :param direciton: str - searching direction
+        :param res_board: WordsearchBoard.grid - grid for storing results
+        :return: bool - true if word was found, false otherwise
         """
         #print(f'find called: word={word} row={row} col={col} i={i}')
         if i == len(word):
@@ -212,6 +239,8 @@ class WordsearchBoard():
     def print_board(self, grid=None):
         """
         Print board
+
+        :param grid: WordsearchBoard.grid - grid to print
         """
         if not grid:
             grid = self.grid
@@ -222,6 +251,8 @@ class WordsearchBoard():
     def empty_grid(self):
         """
         Create empty grid object (2D-array) and return it
+
+        :return: WordsearchBoard.grid - empty grid with a size of original board
         """
         grid = []
         for y in range(self.height):
