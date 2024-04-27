@@ -75,6 +75,7 @@ class WordsearchBoard:
         return False
 
     def find_xy(self, wlen, max_attempts=1000):
+        # pylint: disable=R0912
         """
         Find coordinates and direction for a word with a given length
 
@@ -169,6 +170,7 @@ class WordsearchBoard:
         return False
 
     def find(self, word, row, col, i=0, direction="default", res_board=None):
+        # pylint: disable=R0913
         """
         Recursive function for locating a word
 
