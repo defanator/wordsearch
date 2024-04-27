@@ -11,6 +11,31 @@ __license__ = "MIT"
 __copyright__ = f"Copyright (c) {__author__}"
 
 
+TEST_BOARD1 = [
+    ["A", "B", "C"],
+    ["C", "A", "T"],
+    ["X", "Y", "Z"],
+]
+
+TEST_BOARD2 = [
+    ["A", "C", "X"],
+    ["B", "A", "T"],
+    ["C", "R", "Z"],
+]
+
+TEST_BOARD3 = [
+    ["C", "A", "B"],
+    ["C", "A", "X"],
+    ["Y", "Z", "T"],
+]
+
+TEST_BOARD4 = [
+    ["A", "B", "C"],
+    ["C", "A", "X"],
+    ["T", "Y", "Z"],
+]
+
+
 def test_create_default_board():
     """
     Create default board
@@ -44,3 +69,16 @@ def test_create_board_with_invalid_input():
 
     with pytest.raises(ValueError, match=r"height must be greater than 0"):
         _ = WordsearchBoard(width=3, height=-3)
+
+
+def test_find_word():
+    """
+    Find word in predefined board
+    """
+    for grid in [TEST_BOARD1, TEST_BOARD2, TEST_BOARD3, TEST_BOARD4]:
+        wb = WordsearchBoard(width=3, height=3, grid=grid)
+        empty_grid = wb.empty_grid()
+        print("\n")
+        assert wb.exists("CAT", res_board=empty_grid) is True
+        wb.print_board(grid=empty_grid)
+        assert wb.exists("DOG") is False
