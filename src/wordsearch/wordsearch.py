@@ -15,6 +15,12 @@ class WordsearchBoard():
     Class representing a grid for word search board
     """
     def __init__(self, width=20, height=20):
+        if width < 1:
+            raise ValueError("width must be greater than 0")
+
+        if height < 1:
+            raise ValueError("height must be greater than 0")
+
         self.width = width
         self.height = height
         self.grid = None
