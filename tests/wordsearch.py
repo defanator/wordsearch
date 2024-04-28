@@ -5,6 +5,7 @@ Tests for WordSearch
 import pytest
 from wordsearch import WordsearchBoard
 from wordsearch import EMPTY_CHAR as _ec
+from .utils import grid_contains_empty_chars
 
 
 __author__ = "Andrei Belov"
@@ -171,3 +172,22 @@ def test_place_no_chance():
     """
     wb = WordsearchBoard(width=3, height=3, grid=TEST_BOARD6)
     assert wb.place_word("FOG") is False
+
+
+def test_mask_grid():
+    """
+    Masking a grid with random letters
+    """
+    wb = WordsearchBoard(width=3, height=3, grid=TEST_BOARD6)
+
+    print("before masking:")
+    wb.print_board()
+    assert grid_contains_empty_chars(wb) is True
+
+    wb.mask_grid()
+
+    print("\nafter masking:")
+    wb.print_board()
+    assert grid_contains_empty_chars(wb) is False
+
+    assert wb.exists("CAT") is True
