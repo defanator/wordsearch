@@ -12,27 +12,33 @@ __copyright__ = f"Copyright (c) {__author__}"
 
 
 TEST_BOARD1 = [
-    ["A", "B", "C"],
+    ["X", "X", "X"],
     ["C", "A", "T"],
-    ["X", "Y", "Z"],
+    ["X", "X", "X"],
 ]
 
 TEST_BOARD2 = [
-    ["A", "C", "X"],
-    ["B", "A", "T"],
-    ["C", "R", "Z"],
+    ["X", "C", "X"],
+    ["X", "A", "X"],
+    ["X", "T", "X"],
 ]
 
 TEST_BOARD3 = [
-    ["C", "A", "B"],
-    ["C", "A", "X"],
-    ["Y", "Z", "T"],
+    ["C", "X", "X"],
+    ["X", "A", "X"],
+    ["X", "X", "T"],
 ]
 
 TEST_BOARD4 = [
-    ["A", "B", "C"],
-    ["C", "A", "X"],
-    ["T", "Y", "Z"],
+    ["X", "X", "C"],
+    ["X", "A", "X"],
+    ["T", "X", "X"],
+]
+
+TEST_BOARD5 = [
+    ["X", "C", "X"],
+    ["F", "A", "T"],
+    ["X", "R", "X"],
 ]
 
 
@@ -71,9 +77,9 @@ def test_create_board_with_invalid_input():
         _ = WordsearchBoard(width=3, height=-3)
 
 
-def test_find_word():
+def test_find_word_in_default_directions():
     """
-    Find word in predefined board
+    Find word in predefined board, default valid directions
     """
     for grid in [TEST_BOARD1, TEST_BOARD2, TEST_BOARD3, TEST_BOARD4]:
         wb = WordsearchBoard(width=3, height=3, grid=grid)
@@ -82,3 +88,29 @@ def test_find_word():
         assert wb.exists("CAT", res_board=empty_grid) is True
         wb.print_board(grid=empty_grid)
         assert wb.exists("DOG") is False
+
+
+def test_find_word_in_unexpected_directions():
+    """
+    Find word in predefined board, unexpected directions
+    """
+    wb = WordsearchBoard(width=3, height=3, grid=TEST_BOARD5)
+
+    for word in ["CAT", "FAR"]:
+        assert wb.exists(word) is False
+
+    for word in ["FAT", "CAR"]:
+        assert wb.exists(word) is True
+
+
+def test_find_word_in_all_directions():
+    """
+    Find word in predefined board, all possible directions (mixed)
+    """
+    wb = WordsearchBoard(width=3, height=3, grid=TEST_BOARD5)
+
+    for word in ["CAT", "FAR", "XCATX", "XFATX", "XTAF", "TAFX"]:
+        empty_grid = wb.empty_grid()
+        assert wb.exists(word, res_board=empty_grid, direction="all") is True
+        print(f"\n={word}=")
+        wb.print_board(grid=empty_grid)

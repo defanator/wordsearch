@@ -157,24 +157,33 @@ class WordsearchBoard:
 
         return True
 
-    def exists(self, word, res_board=None, direction="default"):
+    def exists(self, word, res_board=None, direction=None):
         """
         Check whether a given word present on a board
 
         :param word: str - word to search
         :param res_board: WordsearchBoard.grid - grid with a given word if it was found
-        :param direction: str - which directions to look for
+        :param direction: str - which direction to look for
         :return: bool - true if a word was found, false otherwise
         """
+        directions = (
+            [direction]
+            if direction is not None
+            else ["horizontal", "vertical", "diagonal_cross1", "diagonal_cross2"]
+        )
+
         for y in range(self.height):
             for x in range(self.width):
-                if word[0] == self.grid[y][x]:
-                    if self.find(word, y, x, res_board=res_board, direction=direction):
+                if word[0] != self.grid[y][x]:
+                    continue
+
+                for _direction in directions:
+                    if self.find(word, y, x, res_board=res_board, direction=_direction):
                         return True
 
         return False
 
-    def find(self, word, row, col, i=0, direction="default", res_board=None):
+    def find(self, word, row, col, i=0, direction="all", res_board=None):
         # pylint: disable=R0913
         """
         Recursive function for locating a word
@@ -202,7 +211,7 @@ class WordsearchBoard:
 
         self.grid[row][col] = "*"
 
-        if direction == "default":
+        if direction == "all":
             res = (
                 self.find(word, row + 1, col, i + 1, res_board=res_board)
                 or self.find(word, row - 1, col, i + 1, res_board=res_board)
