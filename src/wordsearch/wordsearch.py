@@ -90,7 +90,7 @@ class WordsearchBoard:
         :return: None if free cell was not found
         """
         if self.width < wlen and self.height < wlen:
-            return False
+            return None
 
         if wlen <= self.height and wlen <= self.width:
             direction_choices = [[1, 0], [1, 1], [0, 1], [1, -1]]
@@ -150,9 +150,6 @@ class WordsearchBoard:
         try:
             x, y, direction = self.find_xy(wlen)
         except TypeError:
-            return False
-
-        if x is None:
             return False
 
         for c in range(wlen):
