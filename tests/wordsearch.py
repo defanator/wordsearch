@@ -140,3 +140,16 @@ def test_place_too_long_word():
     """
     wb = WordsearchBoard(width=3, height=3)
     assert wb.place_word("CATFISH") is False
+
+
+def test_place_and_find_limited_directions():
+    """
+    Place a word which could fit only in limited directions
+    """
+    for dimensions in [(10, 3), (3, 10)]:
+        wb = WordsearchBoard(width=dimensions[0], height=dimensions[1])
+        empty_grid = wb.empty_grid()
+        assert wb.place_word("CATFISH") is True
+        assert wb.exists("CATFISH", res_board=empty_grid) is True
+        print(f"\n={dimensions}=")
+        wb.print_board(grid=empty_grid)
