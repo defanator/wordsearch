@@ -145,6 +145,28 @@ def test_place_and_find():
         wb.print_board(grid=empty_grid)
 
 
+def test_place_and_find_zero_spacing():
+    """
+    Place some words on a new board with zero word spacing and try to find these
+    """
+    wb = WordsearchBoard(width=10, height=10)
+    wb.word_spacing = 0
+
+    words = ["HAMSTER", "MONKEY", "GOOSE", "BEAR", "FOX"]
+
+    for word in words:
+        assert wb.place_word(word) is True
+
+    print("Source board:")
+    wb.print_board()
+
+    for word in words:
+        empty_grid = wb.empty_grid()
+        assert wb.exists(word, res_board=empty_grid) is True
+        print(f"\n={word}=")
+        wb.print_board(grid=empty_grid)
+
+
 def test_place_too_long_word():
     """
     Try to place a word with length exceeding board's dimensions

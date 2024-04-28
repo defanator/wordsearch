@@ -23,8 +23,12 @@ class WordsearchBoard:
         if height < 1:
             raise ValueError("height must be greater than 0")
 
+        # grid dimension
         self.width = width
         self.height = height
+
+        # number of adjacent cells that must be empty when placing a new word
+        self.word_spacing = 1
 
         if grid is not None:
             self.grid = grid
@@ -53,23 +57,22 @@ class WordsearchBoard:
                 if self.grid[y][x] == EMPTY_CHAR:
                     self.grid[y][x] = random.choice(string.ascii_uppercase)
 
-    def occupied(self, y, x, radius=1):
+    def occupied(self, y, x):
         """
         Check if a given cell is already occupied with a letter
 
         :param y: int - row
         :param x: int - column
-        :param radius: int - number of adjacent cells that must be empty as well
         :return: bool - true if occupied, false otherwise
         """
-        if radius == 0:
+        if self.word_spacing == 0:
             if self.grid[y][x] != EMPTY_CHAR:
                 return True
 
             return False
 
-        for yw in range(y - radius, y + radius + 1):
-            for xw in range(x - radius, x + radius + 1):
+        for yw in range(y - self.word_spacing, y + self.word_spacing + 1):
+            for xw in range(x - self.word_spacing, x + self.word_spacing + 1):
                 if yw < 0 or xw < 0:
                     continue
                 if yw > self.height - 1 or xw > self.width - 1:
