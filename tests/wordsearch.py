@@ -122,10 +122,13 @@ def test_place_and_find():
     """
     wb = WordsearchBoard(width=10, height=10)
 
-    words = ["BEAR", "HAMSTER", "GOOSE", "MONKEY", "FOX"]
+    words = ["HAMSTER", "MONKEY", "GOOSE", "BEAR", "FOX"]
 
     for word in words:
         assert wb.place_word(word) is True
+
+    print("Source board:")
+    wb.print_board()
 
     for word in words:
         empty_grid = wb.empty_grid()
