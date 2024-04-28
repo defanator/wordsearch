@@ -114,3 +114,29 @@ def test_find_word_in_all_directions():
         assert wb.exists(word, res_board=empty_grid, direction="all") is True
         print(f"\n={word}=")
         wb.print_board(grid=empty_grid)
+
+
+def test_place_and_find():
+    """
+    Place some words on a new board and try to find these
+    """
+    wb = WordsearchBoard(width=10, height=10)
+
+    words = ["BEAR", "HAMSTER", "GOOSE", "MONKEY", "FOX"]
+
+    for word in words:
+        assert wb.place_word(word) is True
+
+    for word in words:
+        empty_grid = wb.empty_grid()
+        assert wb.exists(word, res_board=empty_grid) is True
+        print(f"\n={word}=")
+        wb.print_board(grid=empty_grid)
+
+
+def test_place_too_long_word():
+    """
+    Try to place a word with length exceeding board's dimensions
+    """
+    wb = WordsearchBoard(width=3, height=3)
+    assert wb.place_word("CATFISH") is False

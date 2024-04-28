@@ -147,7 +147,10 @@ class WordsearchBoard:
         """
         wlen = len(word)
 
-        x, y, direction = self.find_xy(wlen)
+        try:
+            x, y, direction = self.find_xy(wlen)
+        except TypeError:
+            return False
 
         if x is None:
             return False
@@ -189,8 +192,8 @@ class WordsearchBoard:
         Recursive function for locating a word
 
         :param word: str - word to search
-        :param row: row in a grid (y axis)
-        :param col: column in a grid (x axis)
+        :param row: int - row in a grid (y axis)
+        :param col: int - column in a grid (x axis)
         :param i: int - current position in a word
         :param direciton: str - searching direction
         :param res_board: WordsearchBoard.grid - grid for storing results
