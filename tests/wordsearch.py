@@ -4,6 +4,7 @@ Tests for WordSearch
 
 import pytest
 from wordsearch import WordsearchBoard
+from wordsearch import EMPTY_CHAR as _ec
 
 
 __author__ = "Andrei Belov"
@@ -39,6 +40,12 @@ TEST_BOARD5 = [
     ["X", "C", "X"],
     ["F", "A", "T"],
     ["X", "R", "X"],
+]
+
+TEST_BOARD6 = [
+    ["C", _ec, _ec],
+    [_ec, "A", _ec],
+    [_ec, _ec, "T"],
 ]
 
 
@@ -156,3 +163,11 @@ def test_place_and_find_limited_directions():
         assert wb.exists("CATFISH", res_board=empty_grid) is True
         print(f"\n={dimensions}=")
         wb.print_board(grid=empty_grid)
+
+
+def test_place_no_chance():
+    """
+    Try to place a word on a board without chance to success
+    """
+    wb = WordsearchBoard(width=3, height=3, grid=TEST_BOARD6)
+    assert wb.place_word("FOG") is False
