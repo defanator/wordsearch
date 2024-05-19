@@ -92,17 +92,21 @@ class WordsearchBoard:
         :return: int x, int y, tuple direction - coordinates and direction for a word
         :return: None if free cell was not found
         """
+        # if word can not fit at all
         if self.width < wlen and self.height < wlen:
             return None
 
-        if wlen <= self.height and wlen <= self.width:
-            direction_choices = [[1, 0], [1, 1], [0, 1], [1, -1]]
-
-        elif self.width < wlen <= self.height:
+        # if word is longer than board's width but can fit vertically
+        if self.width < wlen <= self.height:
             direction_choices = [[1, 0]]
 
+        # if word is longer than board's height but can fit horizontally
         elif self.height < wlen <= self.width:
             direction_choices = [[0, 1]]
+
+        # if word can fit in all directions
+        else:
+            direction_choices = [[1, 0], [1, 1], [0, 1], [1, -1]]
 
         y_spacing = self.height - wlen + 1
         x_spacing = self.width - wlen + 1
@@ -115,7 +119,7 @@ class WordsearchBoard:
             if direction[0] == 1:
                 y = random.randrange(0, y_spacing) if y_spacing > 0 else 0
 
-            elif direction[0] == 0:
+            else:  # direction[0] == 0:
                 y = random.randrange(0, self.height)
 
             if direction[1] == -1:
@@ -213,6 +217,8 @@ class WordsearchBoard:
             return False
 
         self.grid[row][col] = "*"
+
+        res = False
 
         if direction == "all":
             res = (

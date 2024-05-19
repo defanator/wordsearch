@@ -32,7 +32,7 @@ SHOW_ENV_VARS = \
 	BUILD
 
 help: ## Show help message (list targets)
-	@awk 'BEGIN {FS = ":.*##"; printf "\nTargets:\n"} /^[$$()% 0-9a-zA-Z_-]+:.*?##/ {printf "  \033[36m%-10s\033[0m %s\n", $$1, $$2}' $(SELF)
+	@awk 'BEGIN {FS = ":.*##"; printf "\nTargets:\n"} /^[$$()% 0-9a-zA-Z_-]+:.*?##/ {printf "  \033[36m%-13s\033[0m %s\n", $$1, $$2}' $(SELF)
 
 show-var-%:
 	@{ \
@@ -59,8 +59,17 @@ lint: version ## Run linters
 fmt: version ## Run formatters
 	tox run -e fmt
 
-venv: version ## Create virtualenv
+.venv:
 	tox devenv --list-dependencies .venv
+
+venv: .venv ## Create virtualenv
+
+venv-examples: venv ## Install extra modules for examples
+	$(TOPDIR)/.venv/bin/python3 -m pip install -r $(TOPDIR)/examples/requirements.txt
+
+nltk_data: venv-examples ## Download nltk data required for examples
+	mkdir -p $(TOPDIR)/.venv/nltk_data
+	NLTK_DATA="$(TOPDIR)/.venv/nltk_data" $(TOPDIR)/.venv/bin/python3 -m textblob.download_corpora
 
 clean: ## Clean up
 	find $(TOPDIR)/ -type f -name "*.pyc" -delete
@@ -73,4 +82,4 @@ clean: ## Clean up
 	rm -rf $(TOPDIR)/htmlcov-py*
 	rm -f $(TOPDIR)/VERSION
 
-.PHONY: build test lint fmt venv clean
+.PHONY: build test lint fmt clean

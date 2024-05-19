@@ -2,11 +2,15 @@
 # vim:sw=4:ts=4:et:
 
 """
-Example of creating a board, placing some words, and searching for those
+Example of creating a board, placing some words, and searching for those.
 """
 
 import sys
 from wordsearch import WordsearchBoard
+
+__author__ = "Andrei Belov"
+__license__ = "MIT"
+__copyright__ = f"Copyright (c) {__author__}"
 
 
 def main():
