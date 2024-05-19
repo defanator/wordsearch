@@ -1,6 +1,6 @@
 # Word Search
 
-Word Search implementation in Python for CS50x final project.
+[Word Search](https://en.wikipedia.org/wiki/Word_search) implementation in Python for [CS50x](https://cs50.harvard.edu/x/2024/) final project.
 
 # Copyright
 
