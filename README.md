@@ -8,7 +8,7 @@
 
 This project provides the `wordsearch` Python module exposing an interface to work with WordSearch boards (or grids). It can be used for both creating new boards from a list of given words and discovering given words on existing boards.
 
-It also includes a couple of examples to demonstrate the usage of a module.
+It also includes a couple of [examples](examples/README.md) to demonstrate the usage of a module.
 
 ## Module
 
@@ -35,7 +35,7 @@ See `test_find_word_in_unexpected_directions()` and `test_find_word_in_all_direc
 
 ### Word spacing
 
-The `WordsearchBoard.occupied()` function is using the `word_spacing` class attribute to decide how many adjacent cells of a given position in a grid must not be occupied when looking for a place for a new word. By default it is set to 1. For small boards it could be reduced to 0, for larger boards it may be increased to avoid snuggling.
+The `WordsearchBoard.occupied()` function is using the `word_spacing` class attribute to decide how many adjacent cells of a given position in a grid must not be occupied when looking for a place for a new word. By default it is set to 1. For small boards it could be reduced to 0, for larger boards it may be increased to avoid possible word snuggling.
 
 ### Reversed words
 
